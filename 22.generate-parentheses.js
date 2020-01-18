@@ -1,15 +1,15 @@
 /**
- * 23. [HARD] Merge k Sorted Lists
- * Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+ * 22. Generate parentheses [MEDIUM]
+ * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
  *
- * Example:
- * Input:
+ * For example, given n = 3, a solution set is:
  * [
- *   1->4->5,
- *   1->3->4,
- *   2->6
+ *   "((()))",
+ *   "(()())",
+ *   "(())()",
+ *   "()(())",
+ *   "()()()"
  * ]
- * Output: 1->1->2->3->4->4->5->6
  */
 
 /**
