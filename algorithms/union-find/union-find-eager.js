@@ -1,4 +1,4 @@
-class QuickFind {
+class UnionFind {
   constructor () {
     this.id = []
   }
@@ -7,7 +7,7 @@ class QuickFind {
     this.id = new Array(n).fill(null).map((v, i) => i)
   }
 
-  connected(p, q) {
+  find(p, q) {
     return this.id[p] === this.id[q]
   }
 
@@ -24,7 +24,7 @@ class QuickFind {
   }
 }
 
-const obj = new QuickFind();
+const obj = new UnionFind();
 obj.assign(10);
 obj.union(4, 3)
 obj.union(3, 8)
