@@ -1,4 +1,4 @@
-class QuickFind {
+class UnionFind {
   constructor () {
     this.id = []
     this.sz = []
@@ -10,14 +10,11 @@ class QuickFind {
   }
 
   root(i) {
-    while (i != this.id[i]) {
-      this.id[i] = this.id[this.id[i]]
-      i = this.id[i]
-    }
+    while (i != this.id[i]) i = this.id[i]
     return i
   }
 
-  connected(p, q) {
+  find(p, q) {
     return this.root(p) === this.root(q)
   }
 
@@ -40,7 +37,7 @@ class QuickFind {
   }
 }
 
-const obj = new QuickFind();
+const obj = new UnionFind();
 obj.assign(10);
 obj.union(4, 3)
 obj.union(3, 8)
