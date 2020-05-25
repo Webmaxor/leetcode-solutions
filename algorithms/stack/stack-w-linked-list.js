@@ -8,12 +8,12 @@ class Stack {
 
   push(item) {
     // Inserts a new string onto stack
-    this.linkedList.unshift(item)
+    return this.linkedList.unshift(item)
   }
 
   pop() {
     // removes and returns the most recently added
-    this.linkedList.shift()
+    return this.linkedList.shift()
   }
 
   isEmpty() {
@@ -26,10 +26,14 @@ class Stack {
   }
 }
 
-const stack = new Stack()
-stack.push(1)
-stack.push(3)
-stack.push(8)
-stack.pop()
+module.exports = Stack
 
-console.log(stack.show())
+/**
+ * Usage
+ */
+// const stack = new Stack()
+// stack.push(1)
+// stack.push(3)
+// stack.push(8)
+// stack.pop()
+// console.log(stack.show())

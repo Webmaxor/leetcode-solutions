@@ -22,7 +22,7 @@ class LinkedList {
     // As we are inserting at the beginning the head pointer needs to now point at the newNode.
     this.head = newNode
 
-    return this.head
+    return data
   }
 
   // Adds to the end of the linked list
@@ -43,7 +43,7 @@ class LinkedList {
     }
     tail.next = newNode
 
-    return this.head
+    return data
   }
 
   // A helper function getAt() is defined to get the desired position
@@ -81,7 +81,7 @@ class LinkedList {
     newNode.next = previous.next
     previous.next = newNode
 
-    return this.head
+    return data
   }
 
   // Delete first item
@@ -90,8 +90,10 @@ class LinkedList {
       return
     }
 
+    const val = this.head.data
     this.head = this.head.next
-    return this.head
+
+    return val
   }
 
   // Delete last item
@@ -113,8 +115,11 @@ class LinkedList {
       tail = tail.next
     }
 
+    const val = tail.next
+
     previous.next = null
-    return this.head
+
+    return val
   }
 
   // Delete item from position
@@ -136,8 +141,11 @@ class LinkedList {
       return
     }
 
+    const val = previous.next.data
+
     previous.next = previous.next.next
-    return this.head
+
+    return val
   }
 
   // Delete linked list
