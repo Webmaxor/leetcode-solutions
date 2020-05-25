@@ -18,6 +18,9 @@
  * @param {character[][]} grid
  * @return {number}
  */
+
+const UnionFind = require('./algorithms/union-find/union-find-eager')
+
 var numIslands = function(grid) {
   if (!grid.length || !grid[0].length) return 0;
 
@@ -54,28 +57,12 @@ var numIslands = function(grid) {
   return isl.length;
 };
 
-class UnionFind {
-  constructor () {
-    this.id = []
-  }
+/**
+ * Usage
+ */
+// const islandsCount = numIslands([
+//   ["1","1","1","1","0"],["1","1","0","1","0"],["1","1","0","0","0"],["0","0","0","0","1"]
+//   // ["1","0","1","1","1"],["1","0","1","0","1"],["1","1","1","0","1"]
+// ])
 
-  assign(n) {
-    this.id = new Array(n).fill(null).map((v, i) => i)
-  }
-
-  find(p, q) {
-    return this.id[p] === this.id[q]
-  }
-
-  union(p, q) {
-    let pid = this.id[p]
-    let qid = this.id[q]
-    for (let i = 0; i < this.id.length; i++) {
-      if (this.id[i] == pid) this.id[i] = qid
-    }
-  }
-
-  show() {
-    return this.id
-  }
-}
+// console.log(islandsCount)
