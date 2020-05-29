@@ -41,8 +41,6 @@ var outerTrees = function(points) {
     stack.push(points[i])
   }
 
-  stack.pop();
-
   // Upper hull
   for (let i = points.length - 1; i >= 0; i--) {
     while (stack.length >= 2 && orientation(stack[stack.length - 2], stack[stack.length - 1], points[i]) > 0) {
