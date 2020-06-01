@@ -11,11 +11,11 @@ class QuickSort {
     let i = low, j = high + 1
 
     while (true) {
-      while (arr[++i] < arr[low]) {
+      while (arr[low] > arr[++i]) {
         if (i == high) break;
       }
 
-      while (arr[low] > arr[--j]) {
+      while (arr[low] < arr[--j]) {
         if (j == low) break
       }
 
@@ -36,5 +36,5 @@ class QuickSort {
   }
 }
 
-const quickSort = new QuickSort("QUICKSORTEXAMPLE".split(""))
-console.log(quickSort)
+//const quickSort = new QuickSort("SORTEXAMPLE".split(""))
+//console.log(quickSort)
