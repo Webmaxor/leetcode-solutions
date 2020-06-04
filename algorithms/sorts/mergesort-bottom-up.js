@@ -1,18 +1,7 @@
-class MergeSortBottomUp {
-  constructor (arr) {
-    const len = arr.length
-    let aux = []
+function mergeSortBottomUp(arr) {
 
-    for (let sz = 1; sz < len; sz = sz + sz) {
-      for (let low = 0; low < len - sz; low += sz + sz) {
-        this.merge(arr, aux, low, low + sz - 1, Math.min(low + sz + sz - 1, len - 1))
-      }
-    }
-
-    return arr
-  }
-
-  merge(arr, aux, low, mid, high) {
+  // Merge helper function
+  function merge(arr, aux, low, mid, high) {
     aux = [...arr]
 
     let i = low, j = mid + 1
@@ -32,7 +21,18 @@ class MergeSortBottomUp {
       }
     }
   }
+
+  // Implementation
+  const len = arr.length
+  let aux = []
+
+  for (let sz = 1; sz < len; sz = sz + sz) {
+    for (let low = 0; low < len - sz; low += sz + sz) {
+      merge(arr, aux, low, low + sz - 1, Math.min(low + sz + sz - 1, len - 1))
+    }
+  }
+
+  return arr
 }
 
-// sorted = new MergeSortBottomUp("SORTEXAMPLE".split(""))
-// console.log(sorted)
+// console.log(mergeSortBottomUp("SORTEXAMPLE".split("")))

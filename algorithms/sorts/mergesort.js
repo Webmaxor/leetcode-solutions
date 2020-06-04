@@ -1,11 +1,5 @@
-class MergeSort {
-  constructor (arr) {
-    let aux = []
-    this.sort(arr, aux, 0, arr.length - 1)
-    return arr
-  }
-
-  merge(arr, aux, low, mid, high) {
+function mergeSort(arr) {
+  function merge(arr, aux, low, mid, high) {
     aux = [...arr]
 
     let i = low, j = mid + 1
@@ -26,19 +20,22 @@ class MergeSort {
     }
   }
 
-  sort(arr, aux, low, high) {
+  function sort(arr, aux, low, high) {
     if (high <= low) {
       return;
     }
 
     const mid = low + Math.trunc((high - low) / 2)
 
-    this.sort(arr, aux, low, mid)
-    this.sort(arr, aux, mid + 1, high)
+    sort(arr, aux, low, mid)
+    sort(arr, aux, mid + 1, high)
 
-    this.merge(arr, aux, low, mid, high)
+    merge(arr, aux, low, mid, high)
   }
+
+  let aux = []
+  sort(arr, aux, 0, arr.length - 1)
+  return arr
 }
 
-//sorted = new MergeSort("SORTEXAMPLE".split(""))
-//console.log(sorted)
+// console.log(mergeSort("SORTEXAMPLE".split("")))

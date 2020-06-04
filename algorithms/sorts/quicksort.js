@@ -1,13 +1,7 @@
 const shuffle = require('../shuffles/knuth-shuffle')
 
-class QuickSort {
-  constructor(arr) {
-    shuffle(arr)
-    this.sort(arr, 0, arr.length - 1)
-    return arr
-  }
-
-  partition(arr, low, high) {
+function quickSort(arr) {
+  function partition(arr, low, high) {
     let i = low, j = high + 1
 
     while (true) {
@@ -28,13 +22,16 @@ class QuickSort {
     return j
   }
 
-  sort(arr, low, high) {
+  function sort(arr, low, high) {
     if (high <= low) return
-    let j = this.partition(arr, low, high)
-    this.sort(arr, low, j - 1)
-    this.sort(arr, j + 1, high)
+    let j = partition(arr, low, high)
+    sort(arr, low, j - 1)
+    sort(arr, j + 1, high)
   }
+
+  shuffle(arr)
+  sort(arr, 0, arr.length - 1)
+  return arr
 }
 
-//const quickSort = new QuickSort("SORTEXAMPLE".split(""))
-//console.log(quickSort)
+// console.log(quickSort("SORTEXAMPLE".split("")))
