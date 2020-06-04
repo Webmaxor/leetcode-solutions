@@ -19,7 +19,7 @@
  * @return {number}
  */
 
-const UnionFind = require('./algorithms/union-find/union-find-eager')
+const UnionFind = require('../../algorithms/union-find/union-find-eager')
 
 var numIslands = function(grid) {
   if (!grid.length || !grid[0].length) return 0;
