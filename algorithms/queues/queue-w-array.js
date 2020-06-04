@@ -10,7 +10,7 @@ class Queue {
   }
 
   dequeue() {
-    // removes and returns the most recently added
+    // removes and returns the first value
     return this.arr.shift()
   }
 

@@ -38,4 +38,6 @@ function mergeSort(arr) {
   return arr
 }
 
+module.exports = mergeSort
+
 // console.log(mergeSort("SORTEXAMPLE".split("")))
