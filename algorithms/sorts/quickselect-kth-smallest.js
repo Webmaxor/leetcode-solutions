@@ -6,44 +6,38 @@ const shuffle = require('../shuffles/knuth-shuffle')
 function quickSelect(arr, k) {
   shuffle(arr)
 
-  function partition(arr, left, right) {
-    let pivot = arr[left]
-    let leftMark = left + 1
-    let rightMark = right
+  function partition(arr, low, high) {
+    let i = low, j = high + 1
 
     while (true) {
-      while (leftMark < right && arr[leftMark] < pivot) {
-        leftMark++
+      while (arr[low] > arr[++i]) {
+        if (i == high) break;
       }
 
-      while (rightMark > left && arr[rightMark] > pivot) {
-        rightMark--
+      while (arr[low] < arr[--j]) {
+        if (j == low) break
       }
 
-      if (leftMark >= rightMark) {
-        break;
-      }
-      else {
-        [arr[leftMark], arr[rightMark]] = [arr[rightMark], arr[leftMark]]
-      }
+      if (i >= j) break;
+      [arr[i], arr[j]] = [arr[j], arr[i]]
     }
 
-    [arr[left], arr[rightMark]] = [arr[rightMark], arr[left]]
+    [arr[low], arr[j]] = [arr[j], arr[low]]
 
-    return rightMark
+    return j
   }
 
-  let left = 0
-  let right = arr.length - 1
+  let low = 0
+  let high = arr.length - 1
 
-  while (left < right) {
-    let split = partition(arr, left, right)
+  while (low < high) {
+    let split = partition(arr, low, high)
 
     if (split < k) {
-      left = split + 1
+      low = split + 1
     }
     else if (split > k) {
-      right = split - 1
+      high = split - 1
     }
     else {
       return arr[k]
