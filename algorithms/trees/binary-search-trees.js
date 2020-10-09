@@ -106,23 +106,93 @@ class BinarySearchTree {
 
   // Delete given value from the tree
   delete(value) {
-
-  }
-
-  // Find minimum value from the tree
-  min() {
     // If tree is empty, just return null
     if (!this.root) {
       return null
     }
 
-    // Assign the root as a current node
-    let node = this.root
+    // Find and delete node recursively
+    this.root = this.deleteNode(this.root, value)
+  }
+
+  // Find a node by given value and delete it from the tree (or sub-tree)
+  deleteNode(node, value) {
+    // Node is empty. Stop recursive function
+    if (!node) {
+      return null
+    }
+
+    // Given value is smaller than current node's value
+    if (value < node.value) {
+      // Continue from left
+      node.left = this.deleteNode(node.left, value)
+    }
+    // Given value is greater than current node's value
+    else if (value > node.value) {
+      // Continue from right
+      node.right = this.deleteNode(node.right, value)
+    }
+    // We found the node
+    else {
+      // Node doesn't have a right child
+      if (!node.right) {
+        return node.left
+      }
+
+      // Node doesn't have a left child
+      if (!node.left) {
+        return node.right
+      }
+
+      // Assign current node to a temporary variable
+      const currentNode = node
+
+      // Set current node to the minimum node of its child
+      node = this.min(currentNode.right)
+
+      // Delete minimum node from the tree
+      node.right = this.deleteMin(currentNode.right)
+
+      // Set current node's left child to an updated node (now minimum node)
+      node.left = currentNode.left
+    }
+
+    return node
+  }
+
+  // Delete smallest valued node from the tree (or sub-tree)
+  deleteMin(node = this.root) {
+    if (!node.left) {
+      return node.right
+    }
+
+    node.left = this.deleteMin(node.left)
+
+    return node
+  }
+
+  // Delete greates valued node from the tree (or sub-tree)
+  deleteMax(node = this.root) {
+    if (!node.right) {
+      return node.left
+    }
+
+    node.right = this.deleteMax(node.right)
+
+    return node
+  }
+
+  // Find minimum node from the tree (or sub-tree)
+  min(node = this.root) {
+    // If tree is empty, just return null
+    if (!node) {
+      return null
+    }
 
     // Start searching the far left node of the tree
     while (node !== null) {
       if (!node.left) {
-        return node.value
+        return node
       }
 
       node = node.left
@@ -130,19 +200,16 @@ class BinarySearchTree {
   }
 
   // Find maximum value from the tree
-  max() {
+  max(node = this.root) {
     // If tree is empty, just return null
-    if (!this.root) {
+    if (!node) {
       return null
     }
 
-    // Assign the root as a current node
-    let node = this.root
-
-    // Start searching the far left node of the tree
+    // Start searching the far right node of the tree
     while (node !== null) {
       if (!node.right) {
-        return node.value
+        return node
       }
 
       node = node.right
@@ -176,7 +243,7 @@ class BinarySearchTree {
         // Node's right child is empty or value is smaller than right child's value.
         // Return current node's value
         if (!node.right || value < node.right.value) {
-          return node.value
+          return node
         }
 
         // Continue searching from the right child
@@ -184,7 +251,7 @@ class BinarySearchTree {
       }
       // We found the value in a tree. Return the current value
       else {
-        return node.value
+        return node
       }
     }
 
@@ -205,7 +272,7 @@ class BinarySearchTree {
     while (node !== null) {
       // The value is greater than current node's value
       if (value > node.value) {
-        // Node's left child is empty. Then just return null
+        // Node's right child is empty. Then just return null
         if (!node.right) {
           return null
         }
@@ -218,7 +285,7 @@ class BinarySearchTree {
         // Node's left child is empty or value is larger than left child's value.
         // Return current node's value
         if (!node.left || value > node.left.value) {
-          return node.value
+          return node
         }
 
         // Continue searching from the left child
@@ -226,7 +293,7 @@ class BinarySearchTree {
       }
       // We found the value in a tree. Return the current value
       else {
-        return node.value
+        return node
       }
     }
 
@@ -241,25 +308,32 @@ class BinarySearchTree {
   // Convert tree to a sorted array
   sort() {
     const list = []
-    traverse(this.root, list)
 
-    // Recursive helper function to traverse the tree
-    function traverse(node = this.root) {
-      if (node === null) {
-        return
-      }
-
-      // Traverse the left child
-      traverse(node.left)
-
-      // Add current node's value to a list
+    // Helper function to collect values
+    const collectValues = (node) => {
       list.push(node.value)
-
-      // Traverse the right child
-      traverse(node.right)
     }
 
+    // Traverse the tree
+    this.traverse(this.root, collectValues)
+
     return list
+  }
+
+  // Traverses the tree by ascending order
+  traverse(node, callback) {
+    if (node === null) {
+      return
+    }
+
+    // Traverse the left child
+    this.traverse(node.left, callback)
+
+    // Run callback function
+    callback(node);
+
+    // Traverse the right child
+    this.traverse(node.right, callback)
   }
 }
 
@@ -267,7 +341,7 @@ module.exports = BinarySearchTree
 
 /**
  * USAGE
- *
+ */
 
 // Create a new empty tree
 const searchTree = new BinarySearchTree()
@@ -287,9 +361,6 @@ searchTree.insert(65)
 searchTree.insert(63)
 searchTree.insert(67)
 
-// Show the whole tree
-console.log(inspect(searchTree.show(), { showHidden: true, depth: null }))
-
 // Search from tree
 console.log(inspect(searchTree.find(22), { showHidden: true, depth: null }))
 
@@ -307,4 +378,9 @@ console.log(searchTree.ceiling(75))
 
 // Get tree as a sorted array
 console.log(searchTree.sort())
-*/
+
+// Delete from the tree
+searchTree.delete(22)
+
+// Show the whole tree
+console.log(inspect(searchTree.show(), { showHidden: true, depth: null }))
