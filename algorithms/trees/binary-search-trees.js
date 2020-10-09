@@ -171,7 +171,7 @@ class BinarySearchTree {
     return node
   }
 
-  // Delete greates valued node from the tree (or sub-tree)
+  // Delete greatest valued node from the tree (or sub-tree)
   deleteMax(node = this.root) {
     if (!node.right) {
       return node.left
