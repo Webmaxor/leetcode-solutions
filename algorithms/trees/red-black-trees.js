@@ -38,7 +38,6 @@ class RedBlackTree extends BinarySearchTree {
     return newNode
   }
 
-
   rotateRight(node) {
     // Create a new node based on parent's left node
     const newNode = node.left
@@ -82,7 +81,7 @@ class RedBlackTree extends BinarySearchTree {
   insert(value) {
     // If value is empty, just return the tree
     if (!value) {
-      return this
+      return
     }
 
     // Start looking for from the root
