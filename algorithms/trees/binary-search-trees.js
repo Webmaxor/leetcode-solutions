@@ -342,7 +342,7 @@ module.exports = BinarySearchTree
 /**
  * USAGE
  */
-
+/*
 // Create a new empty tree
 const searchTree = new BinarySearchTree()
 
@@ -384,3 +384,4 @@ searchTree.delete(22)
 
 // Show the whole tree
 console.log(inspect(searchTree.show(), { showHidden: true, depth: null }))
+*/
