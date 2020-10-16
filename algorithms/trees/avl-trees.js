@@ -3,10 +3,9 @@ const { inspect } = require('util')
 const BinarySearchTree = require('./binary-search-trees')
 
 // Helper class to create tree's node
-class RedBlackNode {
-  constructor(value, color) {
+class Node {
+  constructor(value) {
     this.value = value
-    this.color = color
 
     // Tree node should have two edges
     this.left = null
@@ -14,11 +13,7 @@ class RedBlackNode {
   }
 }
 
-// Define red and black
-const RED = true
-const BLACK = false
-
-class RedBlackTree extends BinarySearchTree {
+class AVLTree extends BinarySearchTree {
   rotateLeft(node) {
     // Create a new node based on parent's right node
     const newNode = node.right
@@ -28,12 +23,6 @@ class RedBlackTree extends BinarySearchTree {
 
     // Set current parent to right child's left child (rotate left)
     newNode.left = node
-
-    // Keep colors
-    newNode.color = node.color
-
-    // Keep colors (in our case red)
-    node.color = RED
 
     return newNode
   }
@@ -48,32 +37,41 @@ class RedBlackTree extends BinarySearchTree {
     // Set current parent to left child's right child (rotate right)
     newNode.right = node
 
-    // Keep colors
-    newNode.color = node.color
-
-    // Keep colors (in our case red)
-    node.color = RED
-
     return newNode
   }
 
-  flipColors(node) {
-    // Red link attaches middle node to a parent
-    node.color = RED
+  rotateLeftRight(node) {
+    // Rotate node's left child to left
+    node.left = this.rotateLeft(node.left)
 
-    // Change color of the left and right children
-    node.left.color = BLACK
-    node.right.color = BLACK
-
-    return node
+    // then rotate node to right
+    return this.rotateRight(node)
   }
 
-  isRed(node) {
+  rotateRightLeft(node) {
+    // Rotate node's right child to right
+    node.right = this.rotateRight(node.right)
+
+    // then rotate node to left
+    return this.rotateLeft(node)
+  }
+
+  // Get tree (sub-tree) height
+  getHeight(node) {
+    let height = 0
+
     if (!node) {
-      return false
+      height = -1
+    } else {
+      height = Math.max(this.getHeight(node.left), this.getHeight(node.right)) + 1
     }
 
-    return node.color == RED
+    return height
+  }
+
+  // Get tree (sub-tree) balance. Tree is balanced if −1 ≤ balance ≤ 1
+  getBalance(node) {
+    return this.getHeight(node.right) - this.getHeight(node.left)
   }
 
   // Insert a new value to a tree
@@ -86,15 +84,14 @@ class RedBlackTree extends BinarySearchTree {
     // Start looking for from the root
     this.root = this.insertNode(this.root, value)
 
-    // Keep root's color black
-    this.root.color = BLACK
+    return this.root
   }
 
   // Recursive function to search for position to insert a new node
   insertNode(node, value) {
-    // Insert at bottom (and color it red)
+    // Insert at bottom
     if (node == null) {
-      return new RedBlackNode(value, RED)
+      return new Node(value)
     }
 
     // The new value is smaller than current node's value
@@ -108,40 +105,48 @@ class RedBlackTree extends BinarySearchTree {
       node.right = this.insertNode(node.right, value)
     }
 
-    // Right child is red, left child is black, then rotate left
-    if (this.isRed(node.right) && !this.isRed(node.left)) {
-      node = this.rotateLeft(node)
-    }
+    return this.fixBalance(node, value)
+  }
 
-    // Left child, left-left grandchild are red, then rotate right
-    if (this.isRed(node.left) && this.isRed(node.left.left)) {
-      node = this.rotateRight(node)
+  fixBalance(node, value) {
+    // If the balance is not OK, then try to balance the node.
+    if (node.left && this.getBalance(node) < -1) {
+      if (value < node.left.value) {
+         node = this.rotateRight(node)
+      } else {
+         node = this.rotateLeftRight(node)
+      }
     }
-
-    // Both children are red, then flip colors
-    if (this.isRed(node.left) && this.isRed(node.right)) {
-      this.flipColors(node)
+    else if (node.right && this.getBalance(node) > 1) {
+      if (value > node.right.value) {
+         node = this.rotateLeft(node)
+      } else {
+         node = this.rotateRightLeft(node)
+      }
     }
 
     return node
   }
 }
 
-module.exports = RedBlackTree
+module.exports = AVLTree
 
 /**
  * USAGE
  */
 
 // Create a new empty tree
-const tree = new RedBlackTree()
+const tree = new AVLTree()
 
 // Fill the tree
-tree.insert('A')
-tree.insert('E')
-tree.insert('S')
-tree.insert('R')
-tree.insert('C')
+inspect(tree.insert(26))
+inspect(tree.insert(41))
+inspect(tree.insert(29))
+inspect(tree.insert(11))
+inspect(tree.insert(65))
+inspect(tree.insert(20))
+inspect(tree.insert(50))
+inspect(tree.insert(23))
 
 // Search from tree
 //console.log(inspect(tree.find('S'), { showHidden: true, depth: null }))

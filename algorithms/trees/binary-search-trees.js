@@ -344,44 +344,44 @@ module.exports = BinarySearchTree
  */
 /*
 // Create a new empty tree
-const searchTree = new BinarySearchTree()
+const tree = new BinarySearchTree()
 
 // Fill the tree
-searchTree.insert(56)
-searchTree.insert(30)
-searchTree.insert(70)
-searchTree.insert(22)
-searchTree.insert(40)
-searchTree.insert(60)
-searchTree.insert(95)
-searchTree.insert(11)
-searchTree.insert(3)
-searchTree.insert(16)
-searchTree.insert(65)
-searchTree.insert(63)
-searchTree.insert(67)
+tree.insert(56)
+tree.insert(30)
+tree.insert(70)
+tree.insert(22)
+tree.insert(40)
+tree.insert(60)
+tree.insert(95)
+tree.insert(11)
+tree.insert(3)
+tree.insert(16)
+tree.insert(65)
+tree.insert(63)
+tree.insert(67)
 
 // Search from tree
-console.log(inspect(searchTree.find(22), { showHidden: true, depth: null }))
+console.log(inspect(tree.find(22), { showHidden: true, depth: null }))
 
 // Show min value of the tree
-console.log(searchTree.min())
+console.log(tree.min())
 
 // Show max value of the tree
-console.log(searchTree.max())
+console.log(tree.max())
 
 // Find equal or less value than the given value
-console.log(searchTree.floor(41))
+console.log(tree.floor(41))
 
 // Find equal or greater value than the given value
-console.log(searchTree.ceiling(75))
+console.log(tree.ceiling(75))
 
 // Get tree as a sorted array
-console.log(searchTree.sort())
+console.log(tree.sort())
 
 // Delete from the tree
-searchTree.delete(22)
+tree.delete(22)
 
 // Show the whole tree
-console.log(inspect(searchTree.show(), { showHidden: true, depth: null }))
+console.log(inspect(tree.show(), { showHidden: true, depth: null }))
 */
