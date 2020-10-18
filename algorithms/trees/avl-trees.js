@@ -31,7 +31,7 @@ class AVLTree extends BinarySearchTree {
     // Create a new node based on parent's left node
     const newNode = node.left
 
-    // Assign left child's right child to parent's keft child
+    // Assign left child's right child to parent's left child
     node.left = newNode.right
 
     // Set current parent to left child's right child (rotate right)
