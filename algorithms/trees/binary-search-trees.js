@@ -300,6 +300,26 @@ class BinarySearchTree {
     return null
   }
 
+  // Get the number of values in the subtree less than given value.
+  rank(value) {
+    const node = this.find(value)
+    return node.left ? this.size(node.left.value) : 0
+  }
+
+  // Get the given node's size (all childrens count of the node)
+  size(value) {
+    let size = 0
+
+    // Find the node of given value
+    const node = this.find(value)
+
+    // Traverse all child nodes and count them
+    this.traverse(node, () => size++)
+
+    // Return node size
+    return size
+  }
+
   // Return the tree
   show() {
     return this
@@ -309,13 +329,8 @@ class BinarySearchTree {
   sort() {
     const list = []
 
-    // Helper function to collect values
-    const collectValues = (node) => {
-      list.push(node.value)
-    }
-
     // Traverse the tree
-    this.traverse(this.root, collectValues)
+    this.traverse(this.root, (node) => list.push(node.value))
 
     return list
   }
@@ -330,10 +345,53 @@ class BinarySearchTree {
     this.traverse(node.left, callback)
 
     // Run callback function
-    callback(node);
+    callback(node)
 
     // Traverse the right child
     this.traverse(node.right, callback)
+  }
+
+  // Finds all values in the range
+  range(low = this.min(), high = this.max()) {
+    // Collect all found values into an array
+    const values = []
+
+    // Start looking for values from root
+    rangeHelper(this.root, low, high)
+
+    // Helper recursive function
+    function rangeHelper(node, low, high) {
+      if (!node) {
+        return
+      }
+
+      // If low is less than current node, go left
+      if (low < node.value) {
+        rangeHelper(node.left, low, high)
+      }
+
+      // If current node within the range[lo, hi], add to the queue
+      if (low <= node.value && high >= node.value) {
+        values.push(node.value)
+      }
+
+      // If high is greater than current node, go right
+      if (high > node.value) {
+        rangeHelper(node.right, low, high)
+      }
+    }
+
+    // return values
+    return values
+  }
+
+  rangeCount(low = this.min(), high = this.max()) {
+    if (this.find(high)) {
+      return this.rank(high) - this.rank(low) + 1
+    }
+    else {
+      return this.rank(high) - this.rank(low)
+    }
   }
 }
 
