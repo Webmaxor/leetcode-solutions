@@ -43,7 +43,7 @@ function sweepLine(lines = []) {
         intersections++
       }
     }
-  }, 0)
+  })
 
   return intersections
 }
