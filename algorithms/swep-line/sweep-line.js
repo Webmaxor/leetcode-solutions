@@ -35,6 +35,7 @@ function sweepLine(lines = []) {
         (
           // Check if y in vertical line's start and end points
           line[0][1] < y && line[1][1] > y ||
+          // Line might be bottom to up (reverse)
           line[0][1] > y && line[1][1] < y
         )
       ))) {
