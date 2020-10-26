@@ -75,6 +75,48 @@ class KDTree {
     }
   }
 
+  // Find points in the given rectangle
+  rectangeSearch(topLeft, bottomRight) {
+    const foundPoints = [];
+
+    _rectangeSearch(this.root, 0)
+
+    function _rectangeSearch(node, depth) {
+      if (node == null) {
+        return
+      }
+
+      // Node is in the rectangle
+      if (
+        topLeft[0] <= node.value[0] && bottomRight[0] >= node.value[0] &&
+        topLeft[1] >= node.value[1] && bottomRight[1] <= node.value[1]
+      ) {
+        foundPoints.push(node)
+      }
+
+      // Calculate axis
+      const axis = depth % node.value.length
+
+      const edge1 = axis === 0 ? topLeft : bottomRight
+      const edge2 = axis === 0 ? bottomRight : topLeft
+
+      if (edge1[axis] < node.value[axis]) {
+        if (edge2[axis] <= node.value[axis]) {
+          _rectangeSearch(node.left, depth + 1)
+        }
+        else {
+          _rectangeSearch(node.left, depth + 1)
+          _rectangeSearch(node.right, depth + 1)
+        }
+      }
+      else {
+        _rectangeSearch(node.right, depth + 1)
+      }
+    }
+
+    return foundPoints;
+  }
+
   // Traverses the tree
   traverse(node, callback) {
     if (node === null) {
@@ -117,3 +159,6 @@ module.exports = KDTree
 
 // Search nearest path
 // console.log(tree.searchNearestPath([4,3]))
+
+// Rectange search
+// console.log(tree.rectangeSearch([3,6], [9,1]))
