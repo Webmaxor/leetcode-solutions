@@ -74,12 +74,12 @@ class IntervalSearchTree {
     // Start looking for intersection in the tree
     while (node !== null) {
       // Check if intervals intersect
-      const w1 = Math.abs(node.low - node.high)
-      const w2 = Math.abs(low - high)
-      const min = low < node.low ? low : node.low
-      const max = high > node.high ? high : node.high
+      const w1 = node.high - node.low
+      const w2 = high - low
+      const min = Math.min(low, node.low)
+      const max = Math.max(high, node.high)
 
-      if (w1 + w2 > Math.abs(min - max)) {
+      if ((w1 + w2) > (max - min)) {
         return node
       }
 
@@ -119,7 +119,7 @@ tree.insert(7,10)
 tree.insert(21,24)
 
 // Show the whole tree
-// console.log(inspect(tree.show(), { showHidden: true, depth: null }))
+console.log(inspect(tree.show(), { showHidden: true, depth: null }))
 
 // Search in the tree
 console.log(tree.find(11, 8))
