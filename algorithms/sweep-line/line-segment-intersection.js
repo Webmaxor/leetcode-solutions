@@ -11,10 +11,6 @@ function lineSegmentIntersection(lines = []) {
     return 0
   }
 
-  // Implement a tree
-  const tree = new AVLTree()
-
-
   // Collect x points and related y points
   const xPoints = []
   lines.map(line => {
@@ -49,7 +45,10 @@ function lineSegmentIntersection(lines = []) {
   // Count intersections
   let intersections = 0
 
-  // Collect Y endpoints to a binary search tree
+  // Implement a tree
+  const tree = new AVLTree()
+
+  // Run through x points
   xPoints.map(point => {
     // If x point is left endpoint of horizontal line, add y point to a tree
     if (point.left && typeof point.yPoint !== "undefined") {
@@ -61,7 +60,7 @@ function lineSegmentIntersection(lines = []) {
       tree.delete(point.yPoint)
     }
 
-    // Vertical line
+    // If x point is related to a vertical line, perform a range search in the tree
     if (typeof point.yPoints !== "undefined") {
       intersections += tree.rangeCount(point.yPoints[0], point.yPoints[1])
     }
