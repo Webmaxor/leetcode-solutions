@@ -7,8 +7,6 @@ const mergeSort = require('../sorts/mergesort')
 class PriorityQueueOrderedArray {
   constructor(arr = []) {
     this.arr = arr
-    this.maxIndex = 0
-    this.minIndex = 0
   }
 
   enqueue(item) {

@@ -136,17 +136,17 @@ module.exports = AVLTree
  */
 
 // Create a new empty tree
-const tree = new AVLTree()
+// const tree = new AVLTree()
 
 // Fill the tree
-inspect(tree.insert(26))
-inspect(tree.insert(41))
-inspect(tree.insert(29))
-inspect(tree.insert(11))
-inspect(tree.insert(65))
-inspect(tree.insert(20))
-inspect(tree.insert(50))
-inspect(tree.insert(23))
+// inspect(tree.insert(26))
+// inspect(tree.insert(41))
+// inspect(tree.insert(29))
+// inspect(tree.insert(11))
+// inspect(tree.insert(65))
+// inspect(tree.insert(20))
+// inspect(tree.insert(50))
+// inspect(tree.insert(23))
 
 // Search from tree
 //console.log(inspect(tree.find('S'), { showHidden: true, depth: null }))
@@ -170,4 +170,4 @@ inspect(tree.insert(23))
 //tree.delete(22)
 
 // Show the whole tree
-console.log(inspect(tree.show(), { showHidden: true, depth: null }))
+// console.log(inspect(tree.show(), { showHidden: true, depth: null }))

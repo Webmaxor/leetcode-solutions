@@ -20,11 +20,6 @@ class BinarySearchTree {
 
   // Insert a new value to a tree
   insert(value) {
-    // If value is empty, just return the tree
-    if (!value) {
-      return this
-    }
-
     // Create a new node from the value
     let newNode = new Node(value)
 
@@ -303,7 +298,7 @@ class BinarySearchTree {
   // Get the number of values in the subtree less than given value.
   rank(value) {
     const node = this.find(value)
-    return node.left ? this.size(node.left.value) : 0
+    return node && node.left ? this.size(node.left.value) : 0
   }
 
   // Get the given node's size (all childrens count of the node)
@@ -322,7 +317,7 @@ class BinarySearchTree {
 
   // Return the tree
   show() {
-    return this
+    return inspect(this, { showHidden: true, depth: null })
   }
 
   // Convert tree to a sorted array
@@ -386,12 +381,7 @@ class BinarySearchTree {
   }
 
   rangeCount(low = this.min(), high = this.max()) {
-    if (this.find(high)) {
-      return this.rank(high) - this.rank(low) + 1
-    }
-    else {
-      return this.rank(high) - this.rank(low)
-    }
+    return this.range(low, high).length
   }
 }
 
