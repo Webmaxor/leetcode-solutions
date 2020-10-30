@@ -1,5 +1,5 @@
 /**
- * Find intersections by sweep line algorithm (not exact algorithm that uses BST and PQ)
+ * Find intersections by brute force algorithm. Worst case - O(N^2)
  * @param {Array} lines
  * @returns {Number} intersections
  */

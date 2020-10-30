@@ -62,7 +62,7 @@ function lineSegmentIntersection(lines = []) {
 
     // If x point is related to a vertical line, perform a range search in the tree
     if (typeof point.yPoints !== "undefined") {
-      intersections += tree.rangeCount(point.yPoints[0], point.yPoints[1])
+      intersections += tree.rangeCount(...point.yPoints)
     }
   })
 
