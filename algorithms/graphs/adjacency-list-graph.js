@@ -20,7 +20,7 @@ class AdjacencyListGraph {
     }
   }
 
-  show() {
+  get() {
     return this.graph
   }
 
