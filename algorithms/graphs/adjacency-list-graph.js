@@ -75,8 +75,49 @@ class AdjacencyListGraph {
     }
   }
 
-  // Find all vertices connected to vertex (and a corresponding path)
-  findConnections(vertex) {
+  // Breadth first search
+  breadthFirstSearch(vertex) {
+    const found = []
+    const queue = []
+    let steps = 0
+
+    // Add given vertex to queue
+    queue.push(vertex)
+
+    // Mark the vertex as visited
+    this.marked[vertex] = true
+
+    while (queue.length) {
+      // Get vertex from queue
+      vertex = queue.shift()
+
+      // Increase steps
+      steps++
+
+      // Iterate edges of the current vertex
+      for (let edge of this.graph[vertex]) {
+        // Check if edge is not visited yet
+        if (!this.marked[edge]) {
+          // Add unvisited vertex to queue
+          queue.push(edge)
+
+          // Set steps count
+          this.marked[edge] = steps
+
+          // Add vertex to edgeTo list to keep path
+          this.edgeTo[edge] = vertex
+
+          // Add connected vertices
+          found.push(edge)
+        }
+      }
+    }
+
+    return found
+  }
+
+  // Find all connected vertices (and a corresponding path) using DFS
+  findConnectionsDFS(vertex) {
     // If vertex does not exist, stop executing
     if (!this.graph[vertex]) {
       return []
@@ -89,6 +130,17 @@ class AdjacencyListGraph {
     this.deepFirstSearch(vertex, (item) => found.push(item))
 
     return found
+  }
+
+  // Find all connected vertices (and a corresponding path) using BFS
+  findConnectionsBFS(vertex) {
+    // If vertex does not exist, stop executing
+    if (!this.graph[vertex]) {
+      return []
+    }
+
+    // Use breadth first search to collect found items
+    return this.breadthFirstSearch(vertex)
   }
 
   // Returns a path between two vertices (if path exists)
@@ -135,7 +187,7 @@ module.exports = AdjacencyListGraph
 // graph.addEdge(3,5)
 
 // Get all connected vertices 0 vertex
-// console.log(graph.findConnections(0))
+// console.log(graph.findConnectionsBFS(0))
 
 // Get path of two vertices
 // console.log(graph.getPath(0, 3))
