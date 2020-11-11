@@ -11,6 +11,7 @@ function findConnections(graph, s) {
   const found = []
   const queue = []
   let steps = 0
+  let vertex;
 
   // Add given vertex to queue
   queue.push(s)
