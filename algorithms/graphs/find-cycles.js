@@ -50,9 +50,9 @@ function findCycles(graph) {
  * USAGE
  */
 
-// Declare graph in edge list
-const graph = [[1, 4, 3], [0, 5], [6, 3], [7, 2, 0], [0, 5], [1, 4], [2, 7], [6, 3]]
+// Declare graph
+const graph = [[1, 4, 3], [0, 5], [6, 3, 4], [7, 2, 0], [0, 5, 2], [1, 4], [2, 7], [6, 3]]
 
 
 // Find cycles
-console.log(findCycles(graph))
+console.log(findCycles(graph)) // [ [ 7, 6, 2, 3 ], [ 5, 1, 0, 4 ] ]
