@@ -83,8 +83,6 @@ const weightedEdgeList = [
 ]
 
 // If we have edge list, need to fill graph
-// The sad thing is.. if we have edge list, we'll need a graph length from the graph only
-// Check Kruskal MST implementation above
 const graph = []
 
 // Assign vertices and weight to adjacent list graph
