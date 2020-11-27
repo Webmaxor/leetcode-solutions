@@ -16,7 +16,6 @@ function AcyclicLP(graph, start = 0) {
     }
   })
 
-  console.log(edgeTo)
   // Return references
   return edgeTo
 
