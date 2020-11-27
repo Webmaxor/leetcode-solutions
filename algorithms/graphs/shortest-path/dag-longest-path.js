@@ -1,27 +1,24 @@
-function dijkstraSP(graph, start = 0) {
+function AcyclicLP(graph, start = 0) {
   // Collect edge reference
   const edgeTo = Array(graph.length).fill(null)
 
   // Collect distances
   const distTo = Array(graph.length).fill(Number.POSITIVE_INFINITY)
 
-  // Priority queue is used to process graph
-  const PQ = []
-
-  // Set starting point, it has 0 distance
+  // Get topological sort of vertices
+  const sortedVertices = topologicalSort(graph)
   distTo[start] = 0
-  PQ.push({ v: start, distance: 0 })
 
-  while (PQ.length > 0) {
-    // Get first (smallest) value from the priority queue
-    const queueItem = PQ.shift()
-
-    // Check if vertex has edges
-    if (graph[queueItem.v]) {
-      // Relax them
-      graph[queueItem.v].forEach((edge) => relax(edge))
+  // Iterate vertices and relax edges
+  sortedVertices.forEach(v => {
+    if (graph[v]) {
+      graph[v].forEach(edge => relax(edge))
     }
-  }
+  })
+
+  console.log(edgeTo)
+  // Return references
+  return edgeTo
 
   // Edge relaxation
   function relax(edge) {
@@ -36,28 +33,42 @@ function dijkstraSP(graph, start = 0) {
 
       // Add reference
       edgeTo[w] = v
-
-      // Find index of current edge vertex
-      const index = PQ.findIndex(item => item.v === w)
-      if (index !== -1) {
-        // Update distance in PQ as well
-        PQ[index].distance = distTo[w]
-      } else {
-        // Add new item to PQ
-        PQ.push({ v: w, distance: distTo[w] })
-      }
-
-      // Actually sorting is not necessary
-      // Code can process without sorting as well
-      PQ.sort((a,b) => a.distance - b.distance)
     }
   }
 
-  // Return references
-  return edgeTo
+  function topologicalSort(graph) {
+    let marked = Array(graph.length).map(() => false)
+    const stack = []
+
+    // Run dfs from first vertex. It fills marked array completely if all vertices are connected each other
+    for (let i = 0; i < graph.length; i++) {
+      if (!marked[i]) {
+        dfs(i)
+      }
+    }
+
+    function dfs(vertex) {
+      // Mark vertex as visited
+      marked[vertex] = true
+
+      // Iterate edges of the current vertex
+      for (let i = 0; graph[vertex] && i < graph[vertex].length; i++) {
+        // Check if edge vertex is not visited yet
+        if (!marked[graph[vertex][i].get('to')]) {
+          // Re-run function for the current linked vertex
+          dfs(graph[vertex][i].get('to'))
+        }
+      }
+
+      stack.push(vertex)
+    }
+
+    // Return stack in reverse order
+    return stack.reverse()
+  }
 }
 
-// Helper function to generate
+// Helper function to generate a path
 function pathGenerator(edgeTo, start, end) {
   if (edgeTo[end] === undefined) {
     return
@@ -116,7 +127,7 @@ weightedEdgeList.forEach(item => {
   edge.set('to', vertices[1])
 
   // Add weight
-  edge.set('weight', item[1])
+  edge.set('weight', item[1] * -1)
 
   if (!graph[vertices[0]]) {
     graph[vertices[0]] = []
@@ -130,7 +141,7 @@ weightedEdgeList.forEach(item => {
 const start = 0
 
 // Process a graph to get vertex references
-const paths = dijkstraSP(graph, start)
+const paths = AcyclicLP(graph, start)
 
 // Get path from start to 6th vertex
 console.log(pathGenerator(paths, start, 6))
