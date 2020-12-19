@@ -69,15 +69,12 @@ class TrieST {
 
     // Continue search from child
     return this.getHelper(node.next[char], key, d + 1)
-
   }
 
   keys() {
     // Collect all keys into queue in a sorted order
     const queue = []
-
     this.collect(this.root, "", queue)
-
     return queue
   }
 
@@ -107,7 +104,6 @@ class TrieST {
 
   longestPrefixOf(query) {
     const length = this.search(this.root, query, 0, 0)
-    console.log(length)
     return query.substring(0, length)
   }
 
@@ -128,6 +124,32 @@ class TrieST {
 
     return this.search(node.next[c], query, d + 1, length)
   }
+
+  wildcardMatch(query) {
+    const queue = []
+    this.wildcardMatchHelper(this.root, query, "", 0, queue)
+    return queue
+  }
+
+  wildcardMatchHelper(node, query, prefix = "", d, queue) {
+    if (node == null) {
+      return
+    }
+
+    if (node.value !== null) {
+      queue.push(prefix)
+    }
+
+    // Wildcard is spotted
+    if (query.charAt(d) === '.') {
+      // Search from all children
+      for (let c = 0; c < this.R; c++) {
+        this.wildcardMatchHelper(node.next[c], query, prefix + String.fromCharCode(c), d + 1, queue)
+      }
+    } else {
+      this.wildcardMatchHelper(node.next[query.charCodeAt(d)], query, prefix + query.charAt(d), d + 1, queue)
+    }
+  }
 }
 
 /**
@@ -145,6 +167,7 @@ trie.put('sur', 0)
 trie.put('surely', 13)
 trie.put('the', 8)
 
-console.log(trie.keys())
-console.log(trie.keysWithPrefix('sh'))
-console.log(trie.longestPrefixOf('shellsort'))
+//console.log(trie.keys())
+//console.log(trie.keysWithPrefix('sh'))
+//console.log(trie.longestPrefixOf('shellsort'))
+console.log(trie.wildcardMatch('.he'))
