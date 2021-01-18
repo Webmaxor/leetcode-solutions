@@ -1,4 +1,3 @@
-
 function knapsack(kWeight, weights, values) {
   const N = weights.length
 
