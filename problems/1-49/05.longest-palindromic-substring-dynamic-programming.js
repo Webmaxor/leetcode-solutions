@@ -13,49 +13,47 @@
  * @param {string} s
  * @return {string}
  */
-var longestPalindrome = function(s) {
-  const strLength = s.length;
+const longestPalindrome = (s) => {
+  const N = s.length
 
-  if (!strLength) return "";
+  // Fill NxN table with 0
+  const table = new Array(N).fill(null).map(() => new Array(N).fill(0))
+  let maxLength = 1
+  let start = 0
 
-  let table = [];
-  let maxLength = 1;
-  let start = 0;
-  const strArray = s.split('');
-
-  for (let i = 0; i < strLength; i++) {
-      table[i] = [];
-      table[i][i] = 1;
+  // Fill i x i with 1
+  for (let i = 0; i < N; i++) {
+    table[i][i] = 1;
   }
 
-  for (let i = 0; i < strLength - 1; i++) {
-      if (strArray[i] == strArray[i+1]) {
-          table[i][i+1] = 1;
+  for (let i = 0; i < N - 1; i++) {
+    if (s[i] == s[i + 1]) {
+      table[i][i + 1] = 1;
+      start = i;
+      maxLength = 2;
+    }
+  }
+
+  for (let k = 3; k <= N; k++) {
+    // Fix the starting index
+    for (let i = 0; i < N - k + 1; i++) {
+      let j = i + k - 1;
+
+      if (table[i + 1][j - 1] && s[i] == s[j]) {
+        table[i][j] = 1;
+
+        if (k > maxLength) {
           start = i;
-          maxLength = 2;
+          maxLength = k;
+        }
       }
+    }
   }
 
-  for (let k = 3; k <= strLength; k++) {
-      // Fix the starting index
-      for (let i = 0; i < strLength - k + 1; i++) {
-          let j = i + k - 1;
-
-          if (table[i+1][j-1] && strArray[i] == strArray[j]) {
-              table[i][j] = 1;
-
-              if (k > maxLength) {
-                  start = i;
-                  maxLength = k;
-              }
-          }
-      }
-  }
-
-  let output = '';
-  for(let i = start; i <= (start + maxLength - 1); i++) {
-      output += strArray[i];
-  }
-
-  return output;
+  return s.substring(start, start + maxLength);
 };
+
+/**
+ * USAGE
+ */
+console.log(longestPalindrome('babad'))
